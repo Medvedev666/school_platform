@@ -1,0 +1,84 @@
+{% load static %}
+
+<style>
+	.top-side {
+		background-size: cover;
+		background-position: top center;
+	}
+</style>
+
+<div id="side-nav" {% if not user.is_authenticated %}class="toggle-active"{% endif %}>
+	<div class="main-menu pt-20">
+		{% url 'home' as hom %} {% url 'dashboard' as dash %} {% url 'profile' as prof %}
+		{% url 'lecturer_list' as lec %}
+		{% url 'student_list' as stu %} {% url 'course_allocation_view' as cav %}
+		{% url 'programs' as pro %} {% url 'session_list' as sess %} {% url 'semester_list' as sem %}
+		{% url 'add_score' as ascore %} {% url 'grade_results' as vr %}{% url 'ass_results' as ar %}
+		{% url 'course_registration' as cr %} {% url 'edit_profile' as ep %} {% url 'change_password' as cp %}
+		{% url 'quiz_progress' as qpr %} {% url 'quiz_marking' as qce %} {% url 'user_course_list' as ucl %}
+		{% url 'admin_panel' as admin_p %}
+		<ul>
+			<li class="{% if request.path == hom %}active{% endif %}">
+				<a href="{% url 'home' %}"><i class="fas fa-home"></i>Главная</a>
+			</li>
+			<li class="{% if request.path == prof %}active{% endif %}">
+				<a href="{% url 'profile' %}"><i class="fas fa-user"></i>Профиль</a>
+			</li>
+
+			{% if request.user.is_superuser %}
+			<li class="{% if request.path == lec %}active{% endif %}">
+				<a href="{% url 'lecturer_list' %}"><i class="fas fa-chalkboard-teacher"></i>Преподаватели</a>
+			</li>
+			<li class="{% if request.path == stu %}active{% endif %}">
+				<a href="{% url 'student_list' %}"><i class="fas fa-user-graduate"></i>Ученики</a>
+			</li>
+			{% endif %}
+
+			{% if request.user.is_lecturer %}
+			<li class="{% if request.path == ucl %}active{% endif %}">
+				<a href="{% url 'user_course_list' %}"><i class="fas fa-book"></i>Мои группы</a>
+			</li>
+			{% endif %}
+
+			{% if request.user.is_student %}
+			<li class="{% if request.path == ucl %}active{% endif %}">
+				<a href="{% url 'user_course_list' %}"><i class="fas fa-book"></i>Мои предметы</a>
+			</li>
+			<!-- <li class="{% if request.path == '/groups/' %}active{% endif %}">
+				<a href="{% url 'groups' %}"><i class="fas fa-book-open"></i>Моя группа</a>
+			</li> -->
+			<li class="{% if request.path == '/groups/course/show_students_task' %}active{% endif %}">
+				<a href="{% url 'show_students_task' %}"><i class="fa fa-spell-check"></i>Назначенные задания</a>
+			</li>
+			<li class="{% if request.path == '/groups/show_stud_result/' %}active{% endif %}">
+				<a href="{% url 'show_stud_result' %}"><i class="fas fa-list"></i>Отчёт</a>
+			</li>
+			{% endif %}
+
+			{% if request.user.is_lecturer or user.is_superuser %}
+			<li class="{% if request.path == '/groups/' %}active{% endif %}">
+				<a href="{% url 'groups' %}"><i class="fas fa-book-open"></i>Предметы</a>
+			</li>
+			<li class="{% if request.path == '/groups/show_stud_result/' %}active{% endif %}">
+				<a href="{% url 'show_stud_result' %}"><i class="fas fa-list"></i>Отчёт</a>
+			</li>
+			{% endif %}
+
+			{% if request.user.is_superuser %}
+			<li class="{% if request.path == cav %}active{% endif %}">
+				<a href="{% url 'course_allocation_view' %}"><i class="fas fa-tasks"></i>Распределение предметов</a>
+			</li>
+			{% endif %}
+
+
+			<br />
+			<p class="ml-3">&RightArrow;</p>
+			<li class="{% if request.path == ep %}active{% endif %}">
+				<a href="{% url 'edit_profile' %}"><i class="fas fa-cogs"></i>Настройки профиля</a>
+			</li>
+			<li class="{% if request.path == cp %}active{% endif %}">
+				<a href="{% url 'change_password' %}"><i class="fas fa-key"></i>Сменить пароль</a>
+			</li>
+		</ul>
+	</div>
+</div>

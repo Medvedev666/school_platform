@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+
+{% block content %}
+<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Главная</a> Группы</div>
+
+
+
+{% if request.user.is_student %}
+<div class="title-1"><i class="fas fa-book-open"></i>Моя группа</div>
+{% else %}
+<div class="title-1"><i class="fas fa-book-open"></i>Список всех групп</div>
+{% endif %}
+<div class="title-line"></div>
+
+{% if messages %}
+{% for message in messages %}
+{% if message.tags == 'error' %}
+<div class="alert alert-danger">
+    <i class="fas fa-exclamation-circle"></i>{{ message }}
+</div>
+{% else %}
+<div class="alert alert-success">
+    <i class="fas fa-check-circle"></i>{{ message }}
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+<div class="content-center" style="align-items: center;">
+    {% if request.user.is_superuser %}
+    <a class="add-button" href="{% url 'add_group' %}"><i class="fas fa-plus"></i>Добавить группу</a>
+    {% endif %}
+</div>
+
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+</button> -->
+
+<!-- Modal -->
+{% for program in groups %}
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <p class="p-4">
+                Вы уверены что хотите удалить?
+            </p>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <a class="btn btn-danger" href="{% url 'group_delete' pk=program.pk %}">Удалить</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+<div class="table-responsive table-shadow table-light table-striped m-0 mt-5">
+    <div class="table-shadow">
+        <table class="table table-light">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Название группы</th>
+                    <th>Описание</th>
+                    {% if request.user.is_superuser %}
+                    <th>Действия</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for program in groups %}
+                {% if request.user.is_student %}
+                    {% if student.department_id == program.id %}
+                    <tr>
+                        <td>{{ forloop.counter }}.</td>
+                        <td><a class="a-list" href="{{ program.get_absolute_url }}">
+                                {{ program.title}}</a></td>
+                        <td>{{ program.summary }} </td>
+                    </tr>
+                    {% elif student.department_id == null %}
+                        <div style="margin: 13px; font-size: 22px; color: red;">Вам не назначили группу, обратитесь к администратору</div>
+                    {% endif %}
+                    <script>
+                        console.log("Ид студента: {{ program.id }}");
+                    </script>
+                {% else %}
+                <tr>
+                    <td>{{ forloop.counter }}.</td>
+                    <td><a class="a-list" href="{{ program.get_absolute_url }}">
+                            {{ program.title}}</a></td>
+                    <td>{{ program.summary }} </td>
+                    {% if request.user.is_superuser %}
+
+                    <td>
+                        <div class="update-delete">
+                            <a href="{% url 'edit_group' pk=program.pk %}" class="update"><i
+                                    class="fas fa-edit"></i></a>
+                            <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#exampleModal" data-program-pk="{{ program.pk }}">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <p class="p-4">
+                                        Вы уверены что хотите удалить?
+                                    </p>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Закрыть</button>
+                                        <a class="btn btn-danger"
+                                            href="{programPK}">Удалить</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".update-delete button").click(function () {
+                var programPK = $(this).attr("data-program-pk");
+                console.log('programPK:', programPK);
+                $("#exampleModal .modal-footer a").attr("href", "/groups/" + programPK + "/delete/");
+            });
+        });
+    </script>
+{% endblock content %}
+<!-- <body>
+
+</body> -->

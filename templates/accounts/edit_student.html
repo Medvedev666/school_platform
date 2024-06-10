@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}<br>
+
+<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Главная</a>  
+    <a href="{% url 'student_list' %}" class="primary1">Студенты </a> Настройка аккаунта
+</div>
+<p class="title-1"><i class="fas fa-cogs"></i>Изменение данных студента</p>
+<div class="title-line"></div><br>
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i>{{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i>{{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+<form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="card">
+            <p class="form-title">Почта & Персональная информация</p>
+
+            <div class="p-3">
+                <div class="form-group">
+                    <b>{{ form.first_name.label }}</b>{{ form.first_name }}
+                    <span class="danger">{{ form.first_name.errors }}</span>
+                </div>
+                <div class="form-group">
+                    <b>{{ form.last_name.label }}</b>{{ form.last_name }}
+                    <span class="danger">{{ form.last_name.errors }}</span>
+                </div>
+                <div class="form-group">
+                    <b>{{ form.father_name.label }}</b>{{ form.father_name }}
+                    <span class="danger">{{ form.father_name.errors }}</span>
+                </div>
+                <div class="form-group">
+                    <b>{{ form.email.label }}</b>{{ form.email }}
+                    <span class="danger">{{ form.email.errors }}</span>
+                </div>
+                <div class="form-group">
+                    <b>{{ form.date_birth.label }}</b>{{ form.date_birth }}
+                    <span class="danger">{{ form.date_birth.errors }}</span>
+                </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+            <p class="form-title">Другое</p>
+            <div class="p-3">
+                <div class="form-group">
+                    <b>Фото профиля</b><br>{{ form.picture }}
+                    <span class="danger">{{ form.picture.errors }}</span>
+                </div>
+                <div class="form-group">
+                    <b>{{ student_form.department.label }}</b>{{ student_form.department }}
+                    <span class="danger">{{ student_form.department.errors }}</span>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <center><input class="btn btn-outline-primary" type="submit" value="Save"></center>
+</form>
+{% endblock content %}

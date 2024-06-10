@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block title %} {{ title }} {% endblock title %}
+{% load static %}
+
+{% block content %}
+
+<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Главная</a> 
+    {% if request.user.is_student %}Мои предметы{% else %}Мои группы{% endif %}</div>
+
+{% if request.user.is_student %}
+    <div class="title-1">{{ student.department.title }}</div>
+    <div class="title-line"></div>
+    {% if student.department.summary %}
+        <p class="program-description">{{ student.department.summary }}</p>
+    {% endif %}
+{% endif %}
+
+{% if request.user.is_lecturer %}
+    <div class="title-1">Мои группы</div>
+    <br>Выберите группу или предмет, что бы посмотреть отчёт
+    <div class="title-line"></div>
+{% endif %}
+
+{% if request.user.is_student and student.department_id == None %}
+<div class="col-md-12 p-0 bg-white">
+    <p style="margin: 13px; font-size: 22px; color: red;">Ваш факультет удален. Обратитесь к администратору для
+        назначения на новый факультет</p>
+</div>
+{% else %}
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i>{{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i>{{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% if request.user.is_lecturer %}
+<div class="table-responsive p-3 mt-3">
+    <div class="table-title">Закрепленные группы:</div>
+    <div class="table-shadow">
+        <table class="table table-light">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th> Название </th>
+                    <th> Описание </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in groups %}
+                <tr>
+                    <td>{{ forloop.counter }}.</td>
+                    <td><a href="{{ course.get_absolute_url }}">
+                            {{ course.title }}</a></td>
+                    <td>{{ course.summary }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+
+<div class="table-responsive p-3">
+    <div class="table-title">Мои предметы:</div>
+    <div class="table-shadow">
+        <table class="table table-light">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th> Название </th>
+                    <th> Код </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                <tr>
+                    <td>{{ forloop.counter }}.</td> 
+                    <td><a href="{{ course.get_absolute_url }}">
+                        {{ course.title }}</a></td>
+                    <td>{{ course.code }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if courses.paginator.page_range|length > 1 %}
+<div class="content-center">
+    <div class="pagination">
+        <a href="?page=1">&laquo;</a>
+        {% for i in courses.paginator.page_range %}
+            {% if i == courses.number %}
+                <a class="pagination-active" href="?page={{ i }}"><b>{{ i }}</b></a>
+            {% else %}
+                <a href="?page={{ i }}">{{ i }}</a>
+            {% endif %}
+        {% endfor %}
+        <a href="?page={{ courses.paginator.num_pages }}">&raquo;</a>
+    </div>
+</div>
+{% endif %}
+
+{% endif %}
+
+{% endblock content %}

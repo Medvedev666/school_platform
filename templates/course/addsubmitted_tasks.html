@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} {% endblock title %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+
+    <div id="input-nav"><a href="{% url 'home' %}" class="primary1">Главная </a>
+        <a href="{% url 'groups' %}" class="primary1">Группа </a>
+        <a href="{% url 'group_detail' course.group.id %}" class="primary1"> {{ course.group }}</a>
+        <a href="{% url 'course_detail' course.slug %}" class="primary1"> {{ course }}</a>
+        Назначение задания
+    </div>
+
+
+    <div class="title-1">{{ course }}</div>
+    <p class="program-description">{{ course.summary }}</p>
+
+
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'error' %}
+    <div class="alert alert-danger">
+        <i class="fas fa-exclamation-circle"></i>{{ message }}
+    </div>
+    {% else %}
+    <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i>{{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-12 p-0">
+            <p class="form-title m-0">Назначение задания: {{ file_name.title }}</p>
+            <div class="table-responsive">
+                <table class="table table-shadow table-light table-striped m-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>ФИО</th>
+                            <th>Отправлено</th>
+                            {% if request.user.is_superuser or request.user.is_lecturer %}
+                            <th>Отправить</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for file in students %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{{ file.file.url }}" title="{{ file }}">
+                                    <i style="font-size: 20px; padding-right: 10px;"
+                                        class="fas fa-file-{{ file.get_extension_short }}"></i>
+                                    {{ file }}
+                                </a>
+                            </td>
+                            {% for task in stud_task %}
+                            {% if file.student.pk == task.student.pk and file_name.pk == task.exercise.pk %}
+                            <td><i class="fas fa-check-circle fa-1-5x"></i></td>
+                            {% endif %}
+                            {% empty %}
+                            <td><i class="fas fa-times-circle fa-1-5x danger"></i></td>
+                            {% endfor %}
+
+
+                            {% if request.user.is_superuser or request.user.is_lecturer %}
+                            <td>
+                                <div class="update-delete">
+                                    <a href="{% url 'add_assignment_one' slug=course.slug student_id=file.student.pk exercise_pk=file_name.pk %}" 
+                                        class="update" title="Отправить">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                </div>
+                            </td>
+                            {% endif %}
+
+                            {% empty %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <span class="text-danger">
+                                    <i class="far fa-frown fa-1x"></i> Студенты не найдены.
+                                </span>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

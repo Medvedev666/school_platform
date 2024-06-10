@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} {% endblock title %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+
+    <div id="input-nav"><a href="{% url 'home' %}" class="primary1">Главная </a>
+        <a href="{% url 'groups' %}" class="primary1">Группа </a>
+        <a href="{% url 'group_detail' course.group.id %}" class="primary1"> {{ course.group }}</a>
+        <a href="{% url 'course_detail' course.slug %}" class="primary1"> {{ course }}</a>
+        Назначение задания
+    </div>
+
+
+    <div class="title-1">{{ course }}</div>
+    <p class="program-description">{{ course.summary }}</p>
+
+
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'error' %}
+    <div class="alert alert-danger">
+        <i class="fas fa-exclamation-circle"></i>{{ message }}
+    </div>
+    {% else %}
+    <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i>{{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-12 p-0">
+            <p class="form-title m-0">Назначение задания: {{ file_name.title }}</p>
+            <div class="table-responsive">
+                <table class="table table-shadow table-light table-striped m-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>ФИО</th>
+                            <th>Отправить</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for file in students %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url 'profile_single' id=file.pk %}" title="{{ file }}">
+                                    <i style="font-size: 20px; padding-right: 10px;"
+                                        class="fas fa-file-{{ file.get_extension_short }}"></i>
+                                    {{ file.get_full_name }}
+                                </a>
+                            </td>
+
+                            {% if request.user.is_superuser or request.user.is_lecturer %}
+                            <td>
+                                <div class="update-delete">
+                                    <a href="{% url 'create_add_stud_task_one_choice' slug=course.slug student_id=file.pk exercise_pk=task_pk %}"
+                                        class="update" title="Отправить">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                </div>
+                            </td>
+                            {% endif %}
+
+                            {% empty %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <span class="text-danger">
+                                    <i class="far fa-frown fa-1x"></i> Студенты не найдены.
+                                </span>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

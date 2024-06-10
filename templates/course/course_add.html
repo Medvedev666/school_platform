@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Главная</a>  
+    <a href="{% url 'groups' %}" class="primary1">Программы</a>  Добавление / редактирование курса</div>
+
+<div class="title-1">Форма добавления / редактирования курса</div>
+<div class="title-line"></div>
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i>{{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i>{{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+<form action="" method="POST">{% csrf_token %}
+    <div class="row" style="justify-content: center;">
+        <div class="col-md-6">
+            <div class="card">
+                <p class="form-title">Информация о курсе</p>
+                <div class="p-3">
+                    <div class="form-group">
+                        <b>Название</b>{{ form.title }}
+                        <span class="danger">{{ form.title.errors }}</span>
+                        <p class="text-muted-xs">Необходимо. 150 символов или меньше. Буквы, цифры и @/./+/-/_ .</p>
+                    </div>
+                    <div class="form-group">
+                        <b>Код</b>{{ form.code }}
+                        <span class="danger">{{ form.code.errors }}</span>
+                        <p class="text-muted-xs">Код курса должен быть похож только на предварительные запросы.</p>
+                    </div>
+                    <div class="form-group">
+                        <b>Описание</b>{{ form.summary }}
+                        <span class="danger">{{ form.summary.errors }}</span>
+                        <p class="text-muted-xs">Введите описание курса.</p>
+                    </div>
+                    <div class="form-group">
+                        <b>Группа</b>{{ form.group }}
+                        <span class="danger">{{ form.group.errors }}</span>
+                        <p class="text-muted-xs">Выберите группу.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <center><input class="btn btn-outline-primary mt-3" type="submit" value="Сохранить"></center>
+</form>
+
+{% endblock content %}

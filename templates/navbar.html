@@ -1,0 +1,65 @@
+{% load static %}
+<div id="top-navbar" style="background: #4b67ad;;" {% if not user.is_authenticated %}class="toggle-active"{% endif %}>
+	<div class="container">
+		<div class="nav-wrapper">
+			{% if user.is_authenticated %}
+			<div class="toggle-btn" onclick="toggleSidebar()">
+				<i class="fas fa-bars"></i>
+			</div>
+			{% endif %}
+
+			<a href="{% url 'home' %}">
+				<div class="d-flex">
+					<div>
+						<img src="{% static '/img/logo.png' %}">
+					</div>
+					<div class="m-left">
+						<h6>МАОУ "СОШ № 47 г. Улан-Удэ им. Калашникова И.К."</h6>
+						<h6>город Улан-Удэ</h6>
+					</div>
+				</div>
+			</a>
+
+			<div class="dropdown">
+				<a class="enter-but" href="{% url 'about' %}">О школе</a>
+			</div>
+			<div class="dropdown">
+				<a class="enter-but" href="{% url 'contacts' %}">Контакты</a>
+			</div>
+
+			{% if user.is_authenticated %}
+
+			<div class="dropdown">
+				<button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+					aria-haspopup="true" aria-expanded="false">
+					<img class="profile-pic" src="{{ request.user.picture.url }}">
+					<!-- {{ request.user.get_full_name|truncatechars:15 }} -->
+				</button>
+				<div class="dropdown-menu" style="min-width: 14rem !important;" aria-labelledby="dropdownMenuButton">
+					<p class="container text-muted-xs text-center">
+						Последний вход: {{ request.user.last_login|date:"d.m.Y" }}</p>
+
+					{% if request.user.is_lecturer or request.user.is_student %}
+					<a class="dropdown-item" href="{% url 'user_course_list' %}"><i class="fas fa-book"></i>Мои 
+						Группы</a>
+					{% endif %}
+
+
+					<a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user"></i>Профиль</a>
+					<a class="dropdown-item" href="{% url 'edit_profile' %}"><i class="fas fa-cogs"></i>Настройки</a>
+					<hr>
+					<div style="display: flex; justify-content: center; align-items: center;">
+						<a class="btn btn-secondary" href="{% url 'logout' %}">
+							<i class="fas fa-sign-out-alt"></i> Выйти
+						</a>
+					</div>
+				</div>
+			</div>
+			{% else %}
+			<div class="dropdown">
+				<a class="enter-but" href="{% url 'login' %}">Войти</a>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>

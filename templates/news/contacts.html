@@ -1,0 +1,307 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{{ title }}{% endblock title %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div id="input-nav"><a href="{% url 'home' %}" class="primary1">Главная</a> Контакты</div>
+    <br>
+
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'error' %}
+    <div class="alert alert-danger">
+        <i class="fas fa-exclamation-circle"></i>{{ message }}
+    </div>
+    {% else %}
+    <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i>{{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    <style>
+        .color-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+        }
+
+        .bg-purple {
+            background-color: #6f42c1;
+        }
+    </style>
+
+
+    <style>
+        .card-header-ne {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-header-ne .title {
+            vertical-align: middle;
+        }
+    </style>
+
+    <div class="row">
+        <div class="col-md-12 p-0">
+
+            <div class="table-responsive" style="overflow-x: visible;">
+                <div class="tpl-block-container tpl-block-list">
+                    <div style="display: flex;" data-object-count="2">
+                        <div class="tpl-container tpl-container-241">
+                            <div class="tpl-block-container tpl-block-list">
+                                <div class="tpl-block-list-objects tpl-container-241-list" data-object-count="9">
+                                    <div class="tpl-block-232">
+                                        <div class="tpl-block-list tpl-component-gw-base-title"
+                                            id="nc-block-9960e537c2cb995cf29c03f209baff71">
+                                            <div class="tpl-anchor" id="zagolovok-1834"></div>
+                                            <h2 class="tpl-text-header2">МАОУ "Средняя общеобразовательная школа №47 г. Улан-Удэ им.
+                                                Калашникова Исая Калистратовича"</h2>
+                                            <div class="tpl-block-list-objects tpl-block-232-list" data-object-count="1">
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tpl-block-226">
+                                        <div class="tpl-block-list tpl-component-gw-base-text"
+                                            id="nc-block-2a81b88de6f227579fde3f43bff6f877">
+                                            <div class="tpl-anchor" id="opisanie-shkoly-2045"></div>
+                                        </div>
+                                    </div>
+                                    <div class="tpl-block-231">
+                                        <div class="tpl-block-list tpl-component-gw-base-title"
+                                            id="nc-block-93c024940a4474026ac6657b85a40255">
+                                            <div class="tpl-anchor" id="zagolovok-1-1836"></div>
+                                            <div class="tpl-text-header6">Телефоны</div>
+                                            <div class="tpl-block-list-objects tpl-block-231-list" data-object-count="1">
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tpl-block-220">
+                                        <div class="tpl-block-list tpl-component-gw-base-text"
+                                            id="nc-block-2e6be05bd4851aa79cb7050b64f44eb4">
+                                            <div class="tpl-anchor" id="kontaktnye-telefony-shkoly-1835"></div>
+                                            <div class="tpl-block-list-objects tpl-block-220-list" data-object-count="1">
+                                                <article class="tpl-text-default">
+                                                    <p>8 (3012) 45-02-32, 8 (3012) 55-63-23</p>
+                                                    <p></p>
+                                                </article>
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tpl-block-233">
+                                        <div class="tpl-block-list tpl-component-gw-base-title"
+                                            id="nc-block-2c820e655ab2bc421edb08c319ea7890">
+                                            <div class="tpl-anchor" id="zagolovok-2-1837"></div>
+                                            <div class="tpl-text-header6">Электронная почта</div>
+                                            <div class="tpl-block-list-objects tpl-block-233-list" data-object-count="1">
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tpl-block-219">
+                                        <div class="tpl-block-list tpl-component-gw-base-text"
+                                            id="nc-block-05e75361020a9664c0a90ec7f43453ac">
+                                            <div class="tpl-anchor" id="elektronnaya-pochta-shkoly-1838"></div>
+                                            <div class="tpl-block-list-objects tpl-block-219-list" data-object-count="1">
+                                                <article class="tpl-text-default">
+                                                    <p>school_47@govrb.ru</p>
+                                                </article>
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tpl-block-234">
+                                        <div class="tpl-block-list tpl-component-gw-base-title"
+                                            id="nc-block-cc0941668039632c21248c1ddbd53afd">
+                                            <div class="tpl-anchor" id="zagolovok-3-1839"></div>
+                                            <div class="tpl-text-header6">Адрес</div>
+                                            <div class="tpl-block-list-objects tpl-block-234-list" data-object-count="1">
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tpl-block-216" data-nc-b="400 " data-nc-b1="400 " data-nc-b2="">
+                                        <div class="tpl-block-list tpl-component-gw-base-text"
+                                            id="nc-block-a6bfcd2ab4dd850b5f969758ddf3af81">
+                                            <div class="tpl-anchor" id="adres-shkoly-1840"></div>
+                                            <div class="tpl-block-list-objects tpl-block-216-list" data-object-count="1"
+                                                data-nc-b="400 " data-nc-b1="400 " data-nc-b2="">
+                                                <article class="tpl-text-default">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td itemprop="address">670042, Республика Бурятия, г.Улан-Удэ,
+                                                                    ул.Калашникова,12</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </article>
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
+                                </div>
+                            </div>
+
+                            <div style="margin-right: 30px;">
+                                <h3 class="title-2">Как добраться</h3>
+                                <div style="position:relative;overflow:hidden;"><a
+                                        href="https://yandex.ru/maps/org/srednyaya_obshcheobrazovatelnaya_shkola_47/51679136467/?utm_medium=mapframe&utm_source=maps"
+                                        style="color:#eee;font-size:12px;position:absolute;top:0px;">Средняя общеобразовательная школа № 47</a><a
+                                        href="https://yandex.ru/maps/198/ulan-ude/category/school/184106240/?utm_medium=mapframe&utm_source=maps"
+                                        style="color:#eee;font-size:12px;position:absolute;top:14px;">Общеобразовательная школа в
+                                        Улан‑Удэ</a><iframe
+                                        src="https://yandex.ru/map-widget/v1/?from=api-maps&ll=107.650439%2C51.805994&mode=search&oid=51679136467&ol=biz&origin=jsapi_2_1_79&z=16.55"
+                                        width="100%" height="400" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe></div>
+                            </div>
+
+                        </div>
+                        <div class="tpl-container tpl-container-242">
+                            <div class="tpl-block-container tpl-block-list">
+                                <div class="tpl-block-list-objects tpl-container-242-list" data-object-count="10">
+                                    
+                                    <div class="tpl-block-237">
+                                        <div class="tpl-block-list tpl-component-gw-base-title"
+                                            id="nc-block-8a66fa4edae9d8b03f0cbaf9bcbf6e54">
+                                            <div class="tpl-anchor" id="zagolovok-6-1849"></div>
+                                            <div class="tpl-text-header6"><strong>Часы приема граждан</strong></div>
+                                            <div class="tpl-block-list-objects tpl-block-237-list" data-object-count="1">
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tpl-block-217">
+                                        <div class="tpl-block-list tpl-component-gw-base-text"
+                                            id="nc-block-12c4e4a9f6abf244e980ed5d0ecc64b5">
+                                            <div class="tpl-anchor" id="chasy-raboty-shkoly-1-2064"></div>
+                                            <div class="tpl-block-list-objects tpl-block-217-list" data-object-count="1">
+                                                <article class="tpl-text-default">
+                                                    <p>ПН–&nbsp;ЧТ&nbsp;с 09.00 -17.00 час; &nbsp;Перерыв с 12.00 - 13.00 час;<br>
+                                                        ПТ&nbsp;- с 09:00 - 16.00 час; Перерыв с 12.00 - 13.00 час</p>
+                                                    <p>Ответственное лицо за прием и обработку обращений граждан:&nbsp;</p>
+                                                    <p>Секретарь Базарова Любовь Доржиевна</p>
+                                                    <p>Телефон для обращения граждан:&nbsp;8 (3012) 45-02-32</p>
+                                                    <p></p>
+                                                </article>
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tpl-block-239">
+                                        <div class="tpl-block-list tpl-component-gw-base-title"
+                                            id="nc-block-929b3b2002ef75ab0572556b322ee8d3">
+                                            <div class="tpl-anchor" id="zagolovok-8-2063"></div>
+                                            <div class="tpl-text-header6">Режим работы</div>
+                                            <div class="tpl-block-list-objects tpl-block-239-list" data-object-count="1">
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tpl-block-218">
+                                        <div class="tpl-block-list tpl-component-gw-base-text"
+                                            id="nc-block-6c23820f011213b03b957b08d0f22e5b">
+                                            <div class="tpl-anchor" id="chasy-raboty-shkoly-1850"></div>
+                                            <div class="tpl-block-list-objects tpl-block-218-list" data-object-count="1">
+                                                <article class="tpl-text-default">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Дата создания образовательной организации</td>
+                                                                <td>08.04.1988</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Язык образования</td>
+                                                                <td>Русский</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Режим работы образовательной организации</td>
+                                                                <td>
+                                                                    <p>8:00 - 19:00</p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>График работы образовательной организации</td>
+                                                                <td>
+                                                                    <p>8:00 - 19:00</p>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </article>
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tpl-block-235">
+                                        <div class="tpl-block-list tpl-component-gw-base-title"
+                                            id="nc-block-385801264c7df4b84064a57293948bec">
+                                            <div class="tpl-anchor" id="zagolovok-4-1845"></div>
+                                            <div class="tpl-text-header6">Начало занятий</div>
+                                            <div class="tpl-block-list-objects tpl-block-235-list" data-object-count="1">
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tpl-block-230">
+                                        <div class="tpl-block-list tpl-component-gw-base-text"
+                                            id="nc-block-77381359c2688a1d70844e8f4659e131">
+                                            <div class="tpl-anchor" id="vremya-nachala-zanyatiy-1846"></div>
+                                            <div class="tpl-block-list-objects tpl-block-230-list" data-object-count="1">
+                                                <article class="tpl-text-default">
+                                                    <p>Начало занятий I смены в 08:00ч.</p>
+                                                    <p>Начало IIсмены в 13:40ч.</p>
+                                                </article>
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tpl-block-236">
+                                        <div class="tpl-block-list tpl-component-gw-base-title"
+                                            id="nc-block-d94c8312a4a3c5847bec2549a4e800f4">
+                                            <div class="tpl-anchor" id="zagolovok-5-1847"></div>
+                                            <div class="tpl-text-header6">Продолжительность учебной недели</div>
+                                            <div class="tpl-block-list-objects tpl-block-236-list" data-object-count="1">
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tpl-block-227">
+                                        <div class="tpl-block-list tpl-component-gw-base-text"
+                                            id="nc-block-458daf4e84e2b68b59f3a4e836a76e5e">
+                                            <div class="tpl-anchor" id="prodolzhitelnost-uchebnoy-nedeli-1848"></div>
+                                            <div class="tpl-block-list-objects tpl-block-227-list" data-object-count="1">
+                                                <article class="tpl-text-default">
+                                                    <p>Пятидневная учебная неделя</p>
+                                                </article>
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}

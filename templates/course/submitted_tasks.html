@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} {% endblock title %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+
+    <div id="input-nav"><a href="{% url 'home' %}" class="primary1">Главная </a>
+        <a href="{% url 'groups' %}" class="primary1">Группа </a>
+        <a href="{% url 'group_detail' course.group.id %}" class="primary1"> {{ course.group }}</a>
+        <a href="{% url 'course_detail' course.slug %}" class="primary1"> {{ course }}</a>
+        Назначенные задания
+    </div>
+
+
+    <div class="title-1">{{ course }}</div>
+    <p class="program-description">{{ course.summary }}</p>
+
+
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'error' %}
+    <div class="alert alert-danger">
+        <i class="fas fa-exclamation-circle"></i>{{ message }}
+    </div>
+    {% else %}
+    <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i>{{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-12 p-0">
+            <p class="form-title m-0">Список учеников</p>
+            <div class="table-responsive">
+                <table class="table table-shadow table-light table-striped m-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>ФИО</th>
+                            <th>Задание</th>
+                            <th>Назначил задание</th>
+                            <th>Дата обновления</th>
+                            <th>Решение</th>
+                            <th>Оценка</th>
+                            <th>Оценить</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for file in sub_task %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{{ file.file.url }}" title="{{ file }}">
+                                    <i style="font-size: 20px; padding-right: 10px;"
+                                        class="fas fa-file-{{ file.get_extension_short }}"></i>
+                                    {{ file.student.get_full_name }}
+                                </a>
+                            </td>
+                            <td>{{ file.exercise.title }}</td>
+                            <td>{{ file.lecturer.get_full_name }}</td>
+                            <td>{{ file.updated_date|date:"d.m.Y" }}</td>
+                            <th>
+                                {% if file.answer == '' %}
+                                Не загружено
+                                {% else %}
+                                <div>
+                                    <a class="download-btn" href="{{ file.answer.url }}" title="Download to your device">
+                                        <i class="fas fa-download"></i>Скачать {{ file.answer }}
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </th>
+                            <td>{{ file.mark }}</td>
+                            {% if request.user.is_superuser or request.user.is_lecturer %}
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        <div class="update-delete">
+                                            <a href="#" class="update" title="Оценить">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </a>
+                                        </div>
+                                    </button>
+                                    <div class="dropdown-menu" style="min-width: 5rem !important;" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" 
+                                            href="{% url 'update_mark' slug=course.slug  task_id=file.pk new_mark=2 %}">2</a>
+                                        <a class="dropdown-item" 
+                                            href="{% url 'update_mark' slug=course.slug  task_id=file.pk new_mark=3 %}">3</a>
+                                        <a class="dropdown-item" 
+                                            href="{% url 'update_mark' slug=course.slug  task_id=file.pk new_mark=4 %}">4</a>
+                                        <a class="dropdown-item" 
+                                            href="{% url 'update_mark' slug=course.slug  task_id=file.pk new_mark=5 %}">5</a>
+                                    </div>
+                                </div>
+                            </td>
+                            {% endif %}
+
+                            {% empty %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <span class="text-danger">
+                                    <i class="far fa-frown fa-1x"></i> Студенты не найдены.
+                                </span>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} {% endblock title %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+
+    <div id="input-nav"><a href="{% url 'home' %}" class="primary1">Главная </a>
+        <a href="{% url 'groups' %}" class="primary1">Группа </a>
+        <a href="{% url 'group_detail' course.group.id %}" class="primary1"> {{ course.group }}</a>
+        {{ course }}
+    </div>
+
+
+    <div class="title-1">{{ course }}</div>
+    <p class="program-description">{{ course.summary }}</p>
+
+    
+    {% if request.user.is_superuser or request.user.is_lecturer %}
+    <div class="btn-flex">
+        <a class="edit-btn" href="{% url 'upload_file_view' course.slug %}">
+            <i class="fas fa-pencil-alt"></i><span class="mobile-hide">Загрузить задание</span>
+        </a>
+        <a class="edit-btn" href="{% url 'assignments' course.slug %}">
+            <span class="mobile-hide">Назначенные задания</span>
+        </a>
+        {% if request.user.is_superuser %}
+        <a class="edit-btn" href="{% url 'edit_course' course.slug %}">
+            <i class="fas fa-pencil-alt"></i><span class="mobile-hide">Редактировать курс</span>
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'error' %}
+    <div class="alert alert-danger">
+        <i class="fas fa-exclamation-circle"></i>{{ message }}
+    </div>
+    {% else %}
+    <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i>{{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-12 p-0">
+            <p class="form-title m-0">Учебные материалы</p>
+            <div class="table-responsive">
+                <table class="table table-shadow table-light table-striped m-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Дата загрузки</th>
+                            <th>Дата обновления</th>
+                            <th>Скачать</th>
+                            {% if request.user.is_superuser or request.user.is_lecturer %}
+                            <th>Действия</th>
+                            <th>Отправить студенту</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for file in files %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{{ file.file.url }}" title="{{ file }}">
+                                    <i style="font-size: 20px; padding-right: 10px;"
+                                        class="fas fa-file-{{ file.get_extension_short }}"></i>
+                                    {{ file.title|title }}
+                                </a>
+                            </td>
+                            <td>{{ file.upload_time|date:"d.m.Y" }}</td>
+                            <td>{{ file.updated_date|date:"d.m.Y" }}</td>
+                            <th>
+                                <div>
+                                    <a class="download-btn" href="{{ file.file.url }}" title="Download to your device">
+                                        <i class="fas fa-download"></i>Скачать
+                                    </a>
+                                </div>
+                            </th>
+
+                            {% if request.user.is_superuser or request.user.is_lecturer %}
+                            <td>
+                                <div class="update-delete">
+                                    <a href="{% url 'upload_file_edit' slug=course.slug file_id=file.pk %}"
+                                        class="update" title="Edit">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    <a href="{% url 'upload_file_delete' slug=course.slug file_id=file.pk %}"
+                                        class="delete" title="Delete">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <div class="update-delete">
+                                            <a href="#" class="update" title="Add">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </div>
+                                    </button>
+                                    <div class="dropdown-menu" style="min-width: 14rem !important;" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" 
+                                            href="{% url 'add_assignments_all' slug=course.slug exercise_pk=file.pk %}">
+                                            <i class="fas fa-user"></i>Отправить группе</a>
+                                        <a class="dropdown-item" href="{% url 'all_students_for_task' slug=course.slug task_pk=file.pk %}"><i class="fas fa-cogs"></i>Отправить выборочно</a>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            {% endif %}
+
+                            {% empty %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <span class="text-danger">
+                                    <i class="far fa-frown fa-1x"></i> Не найдено загруженных материалов.
+                                    {% if request.user.is_superuser or request.user.is_lecturer %}
+                                    <a href="{% url 'upload_file_view' course.slug %}">
+                                        <i class="primary" style="font-size: 22px;">
+                                            Загрузить сейчас
+                                        </i>
+                                        {% endif %}
+                                    </a>
+                                </span>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="site-section">
+    <div class="title-1">Преподаватели</div>
+    <br>
+    <div class="container marketing">
+        <div class="row">
+            {% for lecturer in lecturers %}
+            <div class="col-lg-4 mx-auto" style="background: transparent; box-shadow: none; text-align: center;">
+                {% if lecturer.lecturer.picture %}
+                <img class="" src="{{ lecturer.lecturer.picture.url }}" alt="" style="width:140px;">
+                {% endif %}
+                <h2>{{ lecturer|title }}</h2>
+                <p style="color: #6c757d;">{{ lecturer.lecturer.email }}</p>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} {% endblock title %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+
+    <div id="input-nav"><a href="{% url 'home' %}" class="primary1">Главная </a>
+        <a href="{% url 'groups' %}" class="primary1">Группа </a>
+        Назначение задания
+    </div>
+
+
+
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'error' %}
+    <div class="alert alert-danger">
+        <i class="fas fa-exclamation-circle"></i>{{ message }}
+    </div>
+    {% else %}
+    <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i>{{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-12 p-0">
+            <p class="form-title m-0">Назначенные задания</p>
+            <div class="table-responsive">
+                <table class="table table-shadow table-light table-striped m-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Дата загрузки</th>
+                            <th>Дата обновления</th>
+                            <th>Скачать</th>
+                            <th>Загрузить</th>
+                            <th>Оценка</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for file in stud_task %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{{ file.exercise.file.url }}" title="{{ file.exercise }}">
+                                    <i style="font-size: 20px; padding-right: 10px;"
+                                        class="fas fa-file-{{ file.get_extension_short }}"></i>
+                                    {{ file.exercise.title }}
+                                </a>
+                            </td>
+                            <td>{{ file.upload_time|date:"d.m.Y" }}</td>
+                            <td>{{ file.updated_date|date:"d.m.Y" }}</td>
+                            <th>
+                                <div>
+                                    <a class="download-btn" href="{{ file.exercise.file.url }}" title="Download to your device">
+                                        <i class="fas fa-download"></i>Скачать
+                                    </a>
+                                </div>
+                            </th>
+                            <th>
+                                {% if file.answer == '' %}
+                                <form method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <!-- <input style="padding-right: 320px;" type="file" name="answer">
+                                    <input type="hidden" name="task_id" value="{{ file.pk }}"> -->
+                                    <label class="input-file">
+                                        <span class="input-file-text" type="text"></span>
+                                        <input type="file" name="answer">
+                                        <input type="hidden" name="task_id" value="{{ file.pk }}">
+                                        <span class="input-file-btn">Выберите файл</span>
+                                    </label>
+                                    <button class="download-btn" type="submit">Отправить</button>
+                                </form>
+                                {% else %}
+                                {{ file.answer }}
+                                <form method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <!-- <input style="padding-right: 320px;" type="file" name="answer"> -->
+                                    <!-- <input type="hidden" name="task_id" value="{{ file.pk }}"> -->
+                                    <label class="input-file">
+                                        <span class="input-file-text" type="text"></span>
+                                        <input type="file" name="answer">
+                                        <input type="hidden" name="task_id" value="{{ file.pk }}">
+                                        <span class="input-file-btn">Выберите файл</span>
+                                    </label>
+                                    <button class="download-btn" type="submit">Отправить другой файл</button>
+                                </form>
+                                {% endif %}
+                            </th>
+                            <td>{{ file.mark }}</td>
+    
+                            {% empty %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <span class="text-danger">
+                                    <i class="far fa-frown fa-1x"></i> Не найдено загруженных материалов.
+                                    {% if request.user.is_superuser or request.user.is_lecturer %}
+                                    <a href="{% url 'upload_file_view' course.slug %}">
+                                        <i class="primary" style="font-size: 22px;">
+                                            Загрузить сейчас
+                                        </i>
+                                        {% endif %}
+                                    </a>
+                                </span>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+<script>
+    $('.input-file input[type=file]').on('change', function () {
+            let file = this.files[0];
+            $(this).closest('.input-file').find('.input-file-text').html(file.name);
+        });
+</script>
+{% endblock %}

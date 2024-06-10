@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+
+{% block content %}
+
+<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Главная</a>  Ученики</div>
+
+
+
+<div class="title-1"><i class="fas fa-user-graduate"></i>Список учеников</div>
+<div class="title-line"></div>
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i>{{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i>{{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+<div class="content-center" style="align-items: center;">
+    {% if request.user.is_superuser %}
+    <a class="add-button" href="{% url 'add_student' %}"><i class="fas fa-plus"></i>Добавить ученика</a>
+    {% endif %}
+</div>
+
+<div class="table-responsive table-shadow table-light table-striped m-0 mt-5">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th> Логин </th>
+                <th> Имя Фамилия </th>
+                <th> Почта </th>
+                <th> Отделение </th>
+                <th> Время последнего входа </th>
+                {% if request.user.is_superuser %}
+                <th> Действие </th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in object_list %}
+            <tr>
+                <td> {{ forloop.counter }}.</td>
+                <td>{{ student.student.username }} </td>
+                <td><a href="{% url 'profile_single' student.student.id %}">{{ student.student.get_full_name }}</a></td>
+                <td>{{ student.student.email }} </td>
+                <td>{{ student.department }}</td>        
+                <td>{{ student.student.last_login|date:"d.m.Y в H:i:s" }}</td>
+
+
+
+                {% if request.user.is_superuser %}
+                <td>
+                    <div class="update-delete">
+                        <a href="{% url 'student_edit' student.student.pk %}" class="update" title="Edit"><i class="fas fa-edit"></i></a>
+                        <form action="{% url 'student_delete' student.pk %}">{% csrf_token %}
+                            <button type="submit" class="btn btn-sm" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                        </form>
+                    </div>
+                </td>
+                {% endif %}
+                
+                {% empty %}
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+
+                  <td>
+                  <span class="text-danger">
+                    <i class="far fa-frown"></i>Нет учеников.
+                    {% if request.user.is_superuser %}
+                    <a href="{% url 'add_student' %}">
+                    <i class="primary" style="font-size: 22px;">
+                       Добавить ученика.
+                    </i>
+                    {% endif %}
+                    </a>
+                  </span>
+                </td>
+                <td></td>
+                <td></td>
+                </tr>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

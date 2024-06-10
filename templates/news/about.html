@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{{ title }}{% endblock title %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div id="input-nav"><a href="{% url 'home' %}" class="primary1">Главная</a> О школе</div>
+    <br>
+
+
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'error' %}
+    <div class="alert alert-danger">
+        <i class="fas fa-exclamation-circle"></i>{{ message }}
+    </div>
+    {% else %}
+    <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i>{{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    <style>
+        .color-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+        }
+
+        .bg-purple {
+            background-color: #6f42c1;
+        }
+    </style>
+
+    <div class="title-1">О школе</div>
+
+    <style>
+        .card-header-ne {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-header-ne .title {
+            vertical-align: middle;
+        }
+    </style>
+
+    <div class="row">
+        <div class="col-md-12 p-0">
+            <div class="table-responsive" style="overflow-x: visible;">
+                <div style="display: flex;" 
+                    class="tpl-block-list-objects tpl-container-339-list" data-object-count="3">
+                    <div class="tpl-container tpl-container-341">
+                        <div class="tpl-block-container tpl-block-list">
+                            <div class="tpl-block-list-objects tpl-container-341-list" data-object-count="3">
+                                <div class="tpl-block-331">
+                                    <div class="tpl-block-list tpl-component-gw-base-text"
+                                        id="nc-block-7cce9d947a9da77a0fbafa9dba18569f">
+                                        <div class="tpl-anchor" id="tekst-o-shkole-111"></div>
+                                        <div class="tpl-block-list-objects tpl-block-331-list" data-object-count="2">
+                                            <article class="tpl-text-default">
+                                                <p>Средняя школа №47 была открыта 1 сентября 1988г. Полное наименование – Муниципальное
+                                                    автономное общеобразовательное учреждение «Средняя общеобразовательная школа № 47
+                                                    города&nbsp;Улан-Удэ имени&nbsp;Калашникова Исая Калистратовича»</p>
+                                                <p>Учредителем и собственником имущества Учреждения является муниципальное образование
+                                                    городской округ «город Улан-Удэ». Функции и полномочия учредителя установлены
+                                                    нормативными правовыми актами города Улан-Удэ, осуществляются муниципальным
+                                                    учреждением «Комитетом по образованию г. Улан-Удэ». Функции и полномочия
+                                                    собственника осуществляются Комитетом по управлению имуществом и землепользованию г.
+                                                    Улан-Удэ. Учредителем образовательной организации является Комитет по образованию
+                                                    города Улан-Удэ.<strong>&nbsp;</strong></p>
+                                            </article>
+                
+                
+                                            <article class="tpl-text-default">
+                                                <p><strong>Полное&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                                        &nbsp;&nbsp;</strong>Муниципальное автономное общеобразовательное учреждение
+                                                    «Средняя общеобразовательная школа № 47 города&nbsp;Улан-Удэ имени&nbsp;Калашникова
+                                                    Исая Калистратовича»</p>
+                                                <p><strong>Сокращенное&nbsp;</strong>&nbsp;МАОУ "СОШ № 47 г. Улан-Удэ им. Калашникова
+                                                    И.К."</p>
+                                            </article>
+                
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tpl-block-334">
+                                    <div class="tpl-block-list tpl-component-gw-base-title"
+                                        id="nc-block-a63460260c605e67cfcf914e30010fc3">
+                                        <div class="tpl-anchor" id="zagolovok-114"></div>
+                                        <h2 class="tpl-text-header2">История школы</h2>
+                                        <div class="tpl-block-list-objects tpl-block-334-list" data-object-count="1">
+                
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tpl-block-330">
+                                    <div class="tpl-block-list tpl-component-gw-base-text"
+                                        id="nc-block-f72967defede50a8e053ce5d3838234c">
+                                        <div class="tpl-anchor" id="tekst-istorii-obrazovaniya-shkoly-115"></div>
+                                        <div class="tpl-block-list-objects tpl-block-330-list" data-object-count="1">
+                                            <article class="tpl-text-default">
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Дата создания образовательной организации</td>
+                                                            <td itemprop="regDate">08.04.1988</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Язык образования</td>
+                                                            <td>Русский</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Режим работы образовательной организации</td>
+                                                            <td itemprop="workTime">
+                                                                <p>8:00 - 19:00</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>График работы образовательной организации</td>
+                                                            <td itemprop="workTime">
+                                                                <p>8:00 - 19:00</p>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </article>
+                
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tpl-block-320">
+                        <div class="tpl-block-list tpl-component-gw-base-image tpl-template-gallery"
+                            id="nc-block-c642da1933300104ef875ba80647da4d">
+                            <div class="tpl-anchor" id="izobrazheniya-110"></div>
+                            <div class="swiper-gw-container-outer">
+                                <div class="swiper-gw-container-inner">
+                                    <div class="swiper-container swiper-container-initialized swiper-container-horizontal"
+                                        style="position: relative; width: 488px;">
+                                        <div class="object-item swiper-slide swiper-slide-duplicate swiper-slide-prev swiper-slide-duplicate-next"
+                                            data-swiper-slide-index="1" style="max-width: 488px; width: 488px;">
+                                            <div class="item-size size-4by3">
+                                                <div class="item-image image-cover">
+                                                    <img style="width: 380px; margin-bottom: 20px;" alt="Классы военно-патриотической направленности"
+                                                        title="Классы военно-патриотической направленности" src="{% static '/img/zarnitsa.jpg' %}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="object-item swiper-slide swiper-slide-active" data-swiper-slide-index="0"
+                                            style="max-width: 488px; width: 488px;">
+                                            <div class="item-size size-4by3">
+                                                <div class="item-image image-cover">
+                                                    <img alt="школа 47" title="школа 47" style="width: 380px; margin-bottom: 20px;"
+                                                        src="{% static '/img/school.jpg' %}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}
